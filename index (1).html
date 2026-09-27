@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>受信トレイ仕分けツール</title>
+<meta name="description" content="Gmail の受信トレイをルールで自動的に仕分ける個人用ツールです。許可された範囲について説明します。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161B22;
+    --body:#3A424D;
+    --muted:#6B7480;
+    --paper:#FFFFFF;
+    --surface:#F1F3F4;
+    --rule:#DCDFE3;
+    --airmail-red:#C2333B;
+    --airmail-blue:#2B4C8C;
+    --slot:#E7EAF4;
+    --slot-ink:#2B4C8C;
+    --max:760px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--body);
+    font-family:"Zen Kaku Gothic New",-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+    font-size:16px;
+    line-height:1.85;
+    font-feature-settings:"palt" 1;
+  }
+
+  /* ---- エアメールの帯：このページの署名 ---- */
+  .airmail{
+    height:7px;
+    background-image:repeating-linear-gradient(
+      135deg,
+      var(--airmail-red) 0 14px,
+      transparent 14px 28px,
+      var(--airmail-blue) 28px 42px,
+      transparent 42px 56px
+    );
+    background-color:var(--paper);
+  }
+  .airmail--divider{
+    height:5px;
+    margin:44px 0 20px;
+    opacity:.72;
+  }
+
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 26px}
+
+  /* ---- ヘッダー ---- */
+  header{padding:52px 0 0}
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 20px;
+  }
+  h1{
+    font-family:"Archivo","Zen Kaku Gothic New",sans-serif;
+    font-weight:800;
+    font-size:clamp(29px,5.2vw,44px);
+    line-height:1.24;
+    letter-spacing:-.015em;
+    color:var(--ink);
+    margin:0 0 18px;
+  }
+  .lead{font-size:17px;margin:0;max-width:52ch}
+
+  /* ---- コマンド表示 ---- */
+  .cmd{
+    font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    font-size:13.5px;
+    background:var(--ink);
+    color:#E8EBEF;
+    border-radius:3px;
+    padding:15px 18px;
+    margin:32px 0 0;
+    overflow-x:auto;
+    white-space:nowrap;
+  }
+  .cmd b{color:#8FB4EA;font-weight:500}
+
+  /* ---- 見出し ---- */
+  h2{
+    font-family:"Archivo","Zen Kaku Gothic New",sans-serif;
+    font-weight:600;
+    font-size:15px;
+    letter-spacing:.05em;
+    color:var(--ink);
+    margin:0 0 20px;
+  }
+  .num{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px;
+    color:var(--muted);
+    margin-right:10px;
+    font-weight:400;
+  }
+
+  /* ---- 仕分け先の一覧（実際に付与されるラベル） ---- */
+  .slots{
+    list-style:none;
+    padding:0;
+    margin:0;
+    border-top:1px solid var(--rule);
+  }
+  .slots li{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding:11px 2px;
+    border-bottom:1px solid var(--rule);
+    font-size:14.5px;
+  }
+  .chip{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px;
+    background:var(--slot);
+    color:var(--slot-ink);
+    border-radius:2px;
+    padding:3px 9px;
+    white-space:nowrap;
+    flex:0 0 auto;
+  }
+  .note{margin-left:auto;color:var(--muted);font-size:12.5px;text-align:right;flex:0 1 auto}
+
+  /* ---- する / しない の対比 ---- */
+  .ledger{display:grid;grid-template-columns:1fr 1fr;gap:0 34px}
+  .ledger h3{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin:0 0 12px;
+    padding-bottom:8px;
+    border-bottom:2px solid var(--ink);
+  }
+  .ledger--do h3{color:var(--airmail-blue);border-bottom-color:var(--airmail-blue)}
+  .ledger--dont h3{color:var(--airmail-red);border-bottom-color:var(--airmail-red)}
+  .ledger ul{list-style:none;margin:0;padding:0;font-size:14.5px}
+  .ledger li{padding:7px 0;line-height:1.6}
+
+  /* ---- フッター ---- */
+  footer{background:var(--surface);margin-top:6px;padding:38px 0 46px}
+  .contact{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    color:var(--muted);
+    margin:0 0 16px;
+    line-height:1.9;
+    word-break:break-word;
+  }
+  .policy-link{
+    display:inline-block;
+    color:var(--ink);
+    font-weight:500;
+    font-size:15px;
+    text-decoration:none;
+    border-bottom:2px solid var(--airmail-red);
+    padding-bottom:2px;
+  }
+  .policy-link:hover{border-bottom-color:var(--airmail-blue)}
+  .policy-link:focus-visible{outline:2px solid var(--airmail-blue);outline-offset:3px;border-radius:2px}
+
+  section{padding:44px 0 0}
+
+  @media (max-width:620px){
+    .ledger{grid-template-columns:1fr;gap:34px 0}
+    .note{display:none}
+    header{padding-top:38px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="airmail"></div>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Personal tool ／ 個人用ツール</p>
+    <h1>受信トレイ仕分けツール</h1>
+    <p class="lead">
+      Gmail の受信トレイを、あらかじめ決めたルールで自動的に仕分ける個人用のコマンドラインツールです。
+      差出人や件名を手がかりにラベルを付け、受信トレイから外し、既読にします。
+      利用者本人のアカウントに対してのみ動作します。
+    </p>
+    <div class="cmd"><b>$</b> python organizer.py plan&nbsp;&nbsp;<span style="color:#7C8794"># 実行前に、何がどう変わるかを確認する</span></div>
+  </header>
+
+  <section>
+    <h2><span class="num">01</span>仕分け先</h2>
+    <ul class="slots">
+      <li><span class="chip">ニュース/経済</span><span>経済メディアのメールマガジン</span><span class="note">受信トレイから外す</span></li>
+      <li><span class="chip">ニュース/業界</span><span>業界ニュースの配信</span><span class="note">受信トレイから外す</span></li>
+      <li><span class="chip">通知/Google</span><span>アカウントのセキュリティ通知</span><span class="note">受信トレイから外す</span></li>
+      <li><span class="chip">通知/SNS</span><span>SNS からのお知らせ</span><span class="note">受信トレイから外す</span></li>
+      <li><span class="chip">通知/会議</span><span>オンライン会議の通知</span><span class="note">受信トレイから外す</span></li>
+      <li><span class="chip">イベント</span><span>セミナー・イベントの案内</span><span class="note">受信トレイから外す</span></li>
+      <li><span class="chip">団体/会員</span><span>所属団体からの連絡</span><span class="note">受信トレイに残す</span></li>
+      <li><span class="chip">要対応</span><span>返信や確認を求められているメール</span><span class="note">受信トレイに残す</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span>アクセスの範囲</h2>
+    <div class="ledger">
+      <div class="ledger--do">
+        <h3>行うこと</h3>
+        <ul>
+          <li>受信メールの差出人・件名・日付を読む</li>
+          <li>ラベルを付ける</li>
+          <li>受信トレイから外す</li>
+          <li>既読にする</li>
+        </ul>
+      </div>
+      <div class="ledger--dont">
+        <h3>行わないこと</h3>
+        <ul>
+          <li>メールを削除する</li>
+          <li>メールを送信する</li>
+          <li>メールの内容を外部へ送信する</li>
+          <li>第三者にデータを提供する</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="airmail airmail--divider"></div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="contact">
+      運営・お問い合わせ<br>
+      <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="90feffe2f9e9e5fbf9bee9f1e3e5ffd0f7fdf1f9fcbef3fffd">[email&#160;protected]</a>
+    </p>
+    <a class="policy-link" href="./privacy.html">プライバシーポリシー</a>
+  </div>
+</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

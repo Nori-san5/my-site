@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>プライバシーポリシー ｜ 受信トレイ仕分けツール</title>
+<meta name="description" content="受信トレイ仕分けツールのプライバシーポリシー。取得する情報、利用目的、第三者提供の有無について。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=IBM+Plex+Mono:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#161B22;
+    --body:#3A424D;
+    --muted:#6B7480;
+    --paper:#FFFFFF;
+    --surface:#F1F3F4;
+    --rule:#DCDFE3;
+    --airmail-red:#C2333B;
+    --airmail-blue:#2B4C8C;
+    --max:760px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--body);
+    font-family:"Zen Kaku Gothic New",-apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif;
+    font-size:16px;
+    line-height:1.9;
+    font-feature-settings:"palt" 1;
+  }
+  .airmail{
+    height:7px;
+    background-image:repeating-linear-gradient(
+      135deg,
+      var(--airmail-red) 0 14px,
+      transparent 14px 28px,
+      var(--airmail-blue) 28px 42px,
+      transparent 42px 56px
+    );
+    background-color:var(--paper);
+  }
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 26px}
+
+  header{padding:52px 0 8px}
+  .eyebrow{
+    font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    font-size:12px;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin:0 0 20px;
+  }
+  .back{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    text-decoration:none;
+    display:inline-block;
+    margin-bottom:26px;
+  }
+  .back:hover{color:var(--ink)}
+  .back:focus-visible{outline:2px solid var(--airmail-blue);outline-offset:3px;border-radius:2px}
+  h1{
+    font-family:"Archivo","Zen Kaku Gothic New",sans-serif;
+    font-weight:800;
+    font-size:clamp(27px,4.6vw,38px);
+    line-height:1.26;
+    letter-spacing:-.015em;
+    color:var(--ink);
+    margin:0 0 14px;
+  }
+  .meta{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12.5px;
+    color:var(--muted);
+    margin:0;
+  }
+
+  main{padding:14px 0 0}
+  .item{
+    padding:30px 0;
+    border-top:1px solid var(--rule);
+  }
+  .item:first-child{border-top:2px solid var(--ink)}
+  h2{
+    font-family:"Archivo","Zen Kaku Gothic New",sans-serif;
+    font-weight:600;
+    font-size:13px;
+    letter-spacing:.06em;
+    color:var(--muted);
+    margin:0 0 10px;
+  }
+  h2 .idx{
+    font-family:"IBM Plex Mono",monospace;
+    color:var(--ink);
+    margin-right:9px;
+  }
+  .item p{margin:0;font-size:15.5px}
+  .item ul{margin:0;padding-left:1.25em;font-size:15.5px}
+  .item li{padding:2px 0}
+  strong{color:var(--ink);font-weight:700}
+
+  .callout{
+    background:var(--surface);
+    border-left:3px solid var(--airmail-blue);
+    padding:18px 22px;
+    margin:30px 0 0;
+    font-size:15px;
+  }
+  .callout p{margin:0}
+  .callout strong{display:block;margin-bottom:4px}
+
+  footer{background:var(--surface);margin-top:38px;padding:34px 0 44px}
+  .contact{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13px;
+    color:var(--muted);
+    margin:0;
+    line-height:1.9;
+    word-break:break-word;
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="airmail"></div>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./index.html">← 受信トレイ仕分けツール</a>
+    <p class="eyebrow">Privacy policy ／ プライバシーポリシー</p>
+    <h1>プライバシーポリシー</h1>
+    <p class="meta">最終改定日：2026年9月27日</p>
+  </header>
+
+  <div class="callout">
+    <p><strong>このツールは、利用者本人のメールアカウントのみを対象とした個人用ツールです。</strong>
+    取得したメール情報を外部のサーバーへ送信することはなく、すべて利用者の端末上で処理します。</p>
+  </div>
+
+  <main>
+    <section class="item">
+      <h2><span class="idx">01</span>取得する情報</h2>
+      <p>利用者本人の同意に基づき、Gmail の受信メールに関する次の情報を取得します。</p>
+      <ul>
+        <li>差出人（メールアドレスおよび表示名）</li>
+        <li>件名</li>
+        <li>受信日時</li>
+        <li>ラベルの有無、添付ファイルの有無</li>
+        <li>既読・未読の状態</li>
+      </ul>
+    </section>
+
+    <section class="item">
+      <h2><span class="idx">02</span>利用目的</h2>
+      <p>取得した情報は、<strong>メールの仕分け判定にのみ</strong>使用します。
+      具体的には、ラベルの付与、受信トレイからの除外、既読化の判定です。
+      それ以外の目的には一切使用しません。</p>
+    </section>
+
+    <section class="item">
+      <h2><span class="idx">03</span>外部への送信</h2>
+      <p>本ツールは、取得した情報を外部のサーバーや第三者へ送信しません。
+      仕分けの判定処理はすべて利用者の端末上で完結します。
+      メールの本文を解析・保存する処理も行いません。</p>
+    </section>
+
+    <section class="item">
+      <h2><span class="idx">04</span>第三者への提供</h2>
+      <p>取得した情報を、第三者に提供・販売・共有・開示することはありません。</p>
+    </section>
+
+    <section class="item">
+      <h2><span class="idx">05</span>メールの削除および送信について</h2>
+      <p>本ツールは、メールの<strong>削除</strong>および<strong>送信</strong>を行う権限を要求しません。
+      また、これらの操作を実行することもありません。
+      実行するのは、ラベルの付与、受信トレイからの除外、既読化に限られます。
+      受信トレイから外したメールも、「すべてのメール」から消えることはありません。</p>
+    </section>
+
+    <section class="item">
+      <h2><span class="idx">06</span>認証情報の管理</h2>
+      <p>Google の認証情報（アクセストークンおよびリフレッシュトークン）は、
+      利用者の端末内にのみ保存されます。外部へ送信することはありません。
+      利用者は、Google アカウントの設定画面から、いつでも本ツールのアクセス権を取り消すことができます。</p>
+    </section>
+
+    <section class="item">
+      <h2><span class="idx">07</span>データの保持と削除</h2>
+      <p>本ツールは、取得したメール情報を永続的に保存しません。
+      仕分けの判定結果は利用者の端末上に一時的に保持されるのみで、
+      利用者がファイルを削除すれば消去されます。</p>
+    </section>
+
+    <section class="item">
+      <h2><span class="idx">08</span>本ポリシーの変更</h2>
+      <p>本ポリシーの内容を変更する場合は、このページを更新し、最終改定日を改めます。</p>
+    </section>
+
+    <section class="item">
+      <h2><span class="idx">09</span>お問い合わせ</h2>
+      <p>本ツールおよび本ポリシーに関するお問い合わせは、下記までお願いします。</p>
+    </section>
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p class="contact">
+      受信トレイ仕分けツール<br>
+      <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="5d33322f342428363473243c2e28321d3a303c3431733e3230">[email&#160;protected]</a>
+    </p>
+  </div>
+</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79","spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>
